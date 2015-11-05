@@ -1,4 +1,4 @@
-drop function gm_get_status();
+-- drop function gm_get_status();
 create or replace function gm_get_status()
   returns table (schema_name text, object_name text, grantee text, grants _text)
 as $$

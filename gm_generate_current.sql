@@ -35,4 +35,4 @@ end loop;
 end;
 $$ language plpgsql;
 
-select gm_generate_current();
+-- select gm_generate_current();

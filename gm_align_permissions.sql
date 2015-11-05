@@ -41,4 +41,4 @@ end loop;
 end;
 $$ language plpgsql;
 
-select gm_align_permissions();
+-- select gm_align_permissions();
