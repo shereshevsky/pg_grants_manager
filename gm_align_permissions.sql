@@ -26,8 +26,8 @@ loop
 
     if p_execute
       then
-        foreach v_grant in array g.grants loop
-          execute format ('grant %s on %s to %s', v_grant, g.object_name, g.grantee);
+        foreach v_grant in array v_grants loop
+          execute format ('grant %s on %s to %s', gm_translate(v_grant), g.object_name, g.grantee);
         end loop;
     -- report only
       else raise notice
