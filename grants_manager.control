@@ -1,0 +1,4 @@
+# grants_manager extension
+comment = 'Grants Manager'
+default_version = '0.0.1'
+relocatable = true
