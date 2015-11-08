@@ -14,6 +14,7 @@ make installcheck # (optional)
 
 ```sh
 psql -Upostgres -d database_name -c "create extension grants_manager"                                     ```
+```
 
 ## Example
 
