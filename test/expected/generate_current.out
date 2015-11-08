@@ -1,23 +1,53 @@
-BEGIN;
+begin;
 create user test_user;
-create table test_table (col1 int4);
-grant select on test_table to test_user;
+create table test_table_r (col1 int4);
+create table test_table_w (col1 int4);
+create table test_table_d (col1 int4);
+create table test_table_a (col1 int4);
+create table test_table_x (col1 int4);
+create table test_table_t (col1 int4);
+create table test_table_dd (col1 int4);
+create sequence test_sequence_u;
+grant select on test_table_r to test_user;
+grant update on test_table_w to test_user;
+grant delete on test_table_d to test_user;
+grant insert on test_table_a to test_user;
+grant references on test_table_x to test_user;
+grant trigger on test_table_t to test_user;
+grant truncate on test_table_dd to test_user;
+grant usage on test_sequence_u to test_user;
 select gm_generate_current();
 NOTICE:  table "grants_manager_old" does not exist, skipping
 CONTEXT:  SQL statement "drop table if exists grants_manager_old"
-PL/pgSQL function gm_generate_current() line 11 at EXECUTE statement
+PL/pgSQL function gm_generate_current() line 12 at EXECUTE statement
 NOTICE:  relation "grants_manager" does not exist, skipping
 CONTEXT:  SQL statement "alter table if exists public.grants_manager rename to grants_manager_old"
-PL/pgSQL function gm_generate_current() line 12 at EXECUTE statement
+PL/pgSQL function gm_generate_current() line 13 at EXECUTE statement
  gm_generate_current 
 ---------------------
  
 (1 row)
 
-select postgres, test_user from public.grants_manager where (schema_name, object_name, object_type) = ('public', 'test_table', 'TABLE');
- postgres | test_user 
-----------+-----------
-          | {r}
-(1 row)
+select object_name, postgres, test_user from public.grants_manager
+where (
+  (schema_name, object_type) = ('public', 'TABLE')
+  and object_name in ('test_table_r', 'test_table_w', 'test_table_d',
+    'test_table_a', 'test_table_x', 'test_table_t', 'test_table_dd')
+  ) or (
+  (schema_name, object_type, object_name)
+    = ('public', 'SEQUENCE', 'test_sequence_u')
+  )
+;
+   object_name   | postgres | test_user 
+-----------------+----------+-----------
+ test_table_w    | {}       | {w}
+ test_table_dd   | {}       | {D}
+ test_table_x    | {}       | {x}
+ test_table_d    | {}       | {d}
+ test_table_a    | {}       | {a}
+ test_table_t    | {}       | {t}
+ test_table_r    | {}       | {r}
+ test_sequence_u | {}       | {U}
+(8 rows)
 
-ROLLBACK;
+rollback;

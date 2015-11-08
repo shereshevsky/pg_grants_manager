@@ -22,16 +22,16 @@ begin
 for g in c_grants
 loop
   execute format ('select %s from public.grants_manager where object_name = %L', g.grantee, g.object_name) into v_grants;
-  if g.grants is distinct from v_grants then
-
+  if gm_array_sort(g.grants) <> gm_array_sort(v_grants) then
     if p_execute
       then
+        execute format ('revoke all on %s from %s', g.object_name, g.grantee);
         foreach v_grant in array v_grants loop
           execute format ('grant %s on %s to %s', gm_translate(v_grant), g.object_name, g.grantee);
         end loop;
     -- report only
       else raise notice
-        '%s table permissions for user %s not aligned. current - %, should be - %',
+        '% table permissions for user % not aligned. current - %, should be - %',
           g.object_name, g.grantee, coalesce(g.grants, '{}'), coalesce(v_grants, '{}');
     end if;
   end if;
