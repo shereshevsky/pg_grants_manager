@@ -45,15 +45,15 @@ postgres=# select gm_generate_current();
 
 (1 row)
 
-postgres=# select object_name, postgres, test_user from public.grants_manager
+postgres=# select object_name, test_user from public.grants_manager
 postgres-# where
 postgres-#   (schema_name, object_type) = ('public', 'TABLE')
 postgres-#   and object_name in ('test_table_n', 'test_table_r')
 postgres-# ;
- object_name  |    postgres     | test_user
---------------+-----------------+-----------
- test_table_n | {}              | {}
- test_table_r | {a,d,D,r,t,w,x} | {r}
+ object_name  | test_user
+--------------+-----------
+ test_table_n | {}
+ test_table_r | {r}
 (2 rows)
 ```
 
@@ -69,10 +69,10 @@ postgres-# where
 postgres-#   (schema_name, object_type) = ('public', 'TABLE')
 postgres-#   and object_name in ('test_table_n', 'test_table_r')
 postgres-# ;
- object_name  |    postgres     | test_user
---------------+-----------------+-----------
- test_table_n | {}              | {r,w,D}
- test_table_r | {a,d,D,r,t,w,x} | {}
+ object_name  | test_user
+--------------+-----------
+ test_table_n | {r,w,D}
+ test_table_r | {}
 (2 rows)
 ```
 
