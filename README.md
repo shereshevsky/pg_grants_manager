@@ -34,6 +34,8 @@ postgres=# grant select on test_table_r to test_user;
 GRANT
 ```
 
+### Use Case 1: Generate current permissions map granted to users in the DB
+
 Generate current permissions report. The function creates table with permissions
 snapshot you can use for report or grants managment:
 
@@ -57,6 +59,8 @@ postgres-# ;
 (2 rows)
 ```
 
+### Use Case 2: provide simple grants manipulation declarative toolset
+
 Modify user permissions by simple updates:
 ```sql
 postgres=# update public.grants_manager set test_user = '{r, w, D}' where object_name = 'test_table_n';
@@ -76,6 +80,8 @@ postgres-# ;
 (2 rows)
 ```
 
+### Use Case 3: Provide report for any permisions not matching the declaration
+
 Check and report only unaligned table permissions (optrional):
 ```sql
 postgres=# select gm_align_permissions(p_execute := false);
@@ -88,6 +94,8 @@ NOTICE:  test_table_r table permissions for user test_user not aligned. current 
 
 ```
 
+### Use Case 4: Automatically align DB permissions
+
 Automatically align table permissions to these declared in grants_manager table:
 ```sql
 postgres=# select gm_align_permissions(p_execute := true);
@@ -98,3 +106,8 @@ postgres=# select gm_align_permissions(p_execute := true);
 ```
 
 That's all, everything aligned.
+
+
+## TBD 
+
+* support group permissions for alignment
