@@ -4,7 +4,7 @@ PostgreSQL automated grants managment
 
 ## Install
 ```sh
-cd
+cd ~
 git clone https://github.com/shereshevsky/pg_grants_manager.git
 cd pg_grants_manager
 make
