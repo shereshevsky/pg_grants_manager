@@ -12,7 +12,7 @@ begin
 
   execute 'drop table if exists grants_manager_old';
   execute 'alter table if exists public.grants_manager rename to grants_manager_old';
-  execute 'create table public.grants_manager (schema_name text, object_name text, object_type text)';
+  execute 'create table public.grants_manager (schema_name text, object_name text, object_type text, primary key(schema_name, object_name))';
 
   insert into public.grants_manager (schema_name, object_type, object_name)
   select nspname,
