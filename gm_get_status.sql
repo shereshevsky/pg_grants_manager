@@ -3,7 +3,7 @@ create or replace function gm_get_status()
   returns table (schema_name text, object_name text, grantee text, grants _text)
 as $$
   with object_list as (
-    select nspname schema_name, c.oid::regclass object_name, c.relacl, usename relowner
+    select nspname schema_name, c.oid::regclass object_name, c.relacl, usename relowner, relkind
     from   pg_class c
     join pg_namespace n
     on c.relnamespace = n.oid
@@ -26,7 +26,8 @@ as $$
     where relacl is not null
     group by c.schema_name, c.object_name, u.grantee
   union
-  select schema_name::text, object_name::text, relowner::text, '{a,d,D,r,t,w,x}'::_text
+  select schema_name::text, object_name::text, relowner::text, 
+	case when relkind ='r' then '{a,d,D,r,t,w,x}'::_text when relkind ='S' then '{r,U,w}' ::_text  end
   from object_list;
   -- with object_list as (
   --   select nspname schema_name, c.oid::regclass object_name, c.relacl
