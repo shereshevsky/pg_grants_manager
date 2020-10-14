@@ -1,5 +1,5 @@
 # pg_grants_manager
-PostgreSQL automated grants managment
+PostgreSQL automated grants management
 
 
 ## Install
@@ -37,7 +37,7 @@ GRANT
 ### Use Case 1: Generate current permissions map granted to users in the DB
 
 Generate current permissions report. The function creates table with permissions
-snapshot you can use for report or grants managment:
+snapshot you can use for report or grants management:
 
 
 ```sql
